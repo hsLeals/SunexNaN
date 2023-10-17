@@ -1,0 +1,65 @@
+﻿@using Sunex.Models
+@using System.Security.Claims;
+@model List<Connection>
+
+
+
+
+<section class="userpage">
+
+    <div class="leftuser">
+        <div class="usernav">
+            <span class="user">@User.FindFirst(ClaimTypes.NameIdentifier).Value</span>
+            <div class="user-id">
+                <span>Musteri kodu: </span> <span>#@User.FindFirst(ClaimTypes.Sid).Value</span>
+            </div>
+        </div>
+        <div class="usernav">
+            <ul>
+                <li><a href="/user/neworder">Yeni Sifariş</a></li>
+                <li><a href="/user/myorder">Sifarişlərim</a></li>
+                <li><a class="activee" href="/user/notification">Əlaqə</a></li>
+                <li><a href="/user/confirmation">Tesdiq</a></li>
+                @if (@User.FindFirst(ClaimTypes.Role).Value == "1")
+                {
+                <li><a href="/user/users">Users</a></li>
+                }
+                <li><a href="/user/settings/@User.FindFirst(ClaimTypes.Sid).Value">Tənzimləmələr</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+<div class="page">
+
+        <ul class="categories">
+
+            @{
+                int id = 1;
+                if (Context.Request.RouteValues["id"] != null)
+                {
+                    id = int.Parse(Context.Request.RouteValues["id"].ToString());
+                }
+            }
+            <li class="@(id == 1 ? "active" : "")"><a href="/User/notification/1">Gozleyen</a> </li>
+            <li class="@(id == 2 ? "active" : "")"><a href="/User/notification/2">Cavablandırılmış</a> </li>
+        </ul>
+
+        @foreach(var item in Model)
+        {
+    <div class="product">
+        <div id="mail">
+            <input type="text" readonly="true" placeholder="Ad Soyad" value="@item.ConnectionUser">
+            <input type="text" readonly="true" placeholder="E-Mail" value="@item.ConnectionEmail">
+            <input type="text" readonly="true" placeholder="Mövzu Haqqında məlumat" value="@item.ConnectionTitle">
+            <textarea name="mesaj" readonly="true" id="mesaj" cols="30" rows="10" placeholder="Mesajınızı yazın">@item.ConnectionDescription</textarea>
+        </div>
+    </div>
+            
+        }
+
+    
+
+</div>
+        </section>

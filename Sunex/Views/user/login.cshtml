@@ -1,0 +1,36 @@
+﻿@using Sunex.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model User
+
+
+<section class="login-signup">
+    <form class="login" action="/user/login" method="post">
+        <div class="main login-text">
+            <h3>Giriş</h3>
+        </div>
+        <i class="fa-solid fa-envelope"></i>
+        <input type="text" placeholder="E-Mail" asp-for="UserEmail">
+        <i class="fa-solid fa-key"></i>
+        <input type="password" placeholder="Şifrə" asp-for="UserPassword">
+        <a href="#">Şifrəmi unutmuşam</a>
+        <button>Daxil ol</button>
+    </form>
+    <form class="signup" action="/user/signup" method="post">
+        <div class="main login-text">
+            <h3>Qeydiyyat</h3>
+        </div>
+        <input type="text" placeholder="Ad" asp-for="UserName">
+        <input type="text" placeholder="Soyad" asp-for="UserSurname">
+        <input type="email" placeholder="E-Mail" asp-for="UserEmail">
+        <input type="number" placeholder="Telefon nömrəsi" asp-for="UserPhone">
+        <input type="password" placeholder="Şifrə" asp-for="UserPassword">
+        <select name="userBranchId" id="unvavn" asp-for="UserBranchId">
+            <option value="0">Ünvan seçin </option>
+            @foreach (var item in ViewBag.Branchs)
+            {
+                <option value="@item.BranchId">@item.BranchName</option>
+            }
+        </select>
+        <button>Təsdiqlə</button>
+    </form>
+</section>

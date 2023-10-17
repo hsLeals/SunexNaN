@@ -1,0 +1,40 @@
+﻿<section class="main connection-text">
+    <h1>Bir toxunuşla bizimlə əlaqə!</h1>
+    <p>Təklif və şikayətlərinizi bizə bildirə bilərsiniz.</p>
+</section>
+
+<section class="connections">
+    <div class="steps">
+
+        <div class="step connection">
+            <i class="fa-solid fa-location-dot"></i>
+            <h1>Ünvan</h1>
+            <p>Əsəd Əhmədov 34, Bakı, Azərbaycan</p>
+        </div>
+        <div class="step connection">
+            <i class="fa-solid fa-phone"></i>
+            <h1>Əlaqə</h1>
+            <p>+994 (51) 206 87 78</p>
+        </div>
+        <div class="step connection">
+            <i class="fa-solid fa-envelope"></i>
+            <h1>Email</h1>
+            <p>info@sunex.az</p>
+        </div>
+    </div>
+</section>
+
+<section class="main connection-text">
+    <h1>Bizə Mesaj Yazın</h1>
+    <p>Biz sizə mümkün olduğu qədər tez cavab verməyə çalışacıq</p>
+</section>
+
+<form action="/user/AddNotification" method="post" class="mail">
+    <div id="mail">
+        <input name="connectionUser" type="text" placeholder="Ad Soyad">
+        <input name="ConnectionEmail" type="email" placeholder="E-Mail">
+        <input name="ConnectionTitle" type="text" placeholder="Mövzu Haqqında məlumat">
+        <textarea name="ConnectionDescription" id="mesaj" cols="30" rows="10" placeholder="Mesajınızı yazın"></textarea>
+        <button>Göndər</button>
+    </div>
+</form>

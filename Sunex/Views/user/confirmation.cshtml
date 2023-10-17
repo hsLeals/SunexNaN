@@ -1,0 +1,168 @@
+﻿@using Sunex.Models;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Security.Claims;
+@using Sunex.ViewModels;
+@model List<OpOrders>
+<section class="userpage">
+
+    <div class="leftuser">
+        <div class="usernav">
+            <span class="user">@User.FindFirst(ClaimTypes.NameIdentifier).Value</span>
+            <div class="user-id">
+                <span>Musteri kodu: </span> <span>#@User.FindFirst(ClaimTypes.Sid).Value</span>
+            </div>
+        </div>
+        <div class="usernav">
+            <ul>
+                <li><a href="/user/neworder">Yeni Sifariş</a></li>
+                <li><a href="/user/myorder">Sifarişlərim</a></li>
+                <li><a href="/user/notification">Əlaqə</a></li>
+                <li><a class="activee" href="/user/confirmation">Tesdiq</a></li>
+                @if (@User.FindFirst(ClaimTypes.Role).Value == "1")
+                {
+                <li><a href="/user/users">Users</a></li>
+                }
+                <li><a href="/user/settings/@User.FindFirst(ClaimTypes.Sid).Value">Tənzimləmələr</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+<div class="page">
+<div class="container">
+    <ul class="categories">
+
+                @{
+                    int id = 1;
+                    if(Context.Request.RouteValues["id"] != null)
+                    {
+                        id = int.Parse(Context.Request.RouteValues["id"].ToString());
+                    }
+        }
+                <li class="@(id == 1 ? "active" : "")"><a href="/User/confirmation/1">Gozleyen</a> </li>
+                <li class="@(id == 2 ? "active" : "")"><a href="/User/confirmation/2">Yolda</a> </li>
+                <li class="@(id == 3 ? "active" : "")"><a href="/User/confirmation/3">Bitmis</a> </li>
+    </ul>
+            <table class="ttable">
+        <thead>
+            <tr>
+                <th>Sira</th>
+                <th>Musteri</th>
+                <th>Tarix</th>
+                <th>Mehsul sayi</th>
+                <th colspan="2"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (OpOrders o in Model)
+            {
+                <tr data-id="@o.OrderId">
+                    <td>@(Model.IndexOf(o) + 1)</td>
+                    <td>@o.FullName</td>
+                    <td>@o.Date</td>
+                    <td>@o.count</td>
+                            <td>
+                                @if (id == 1)
+                            {
+                                    <a href="/User/RemoveOrder/@o.OrderId"><i class="fa fa-trash"></i></a>
+                                    <i class="fa fa-info"></i>
+                                    <i class="fa-solid fa-magnifying-glass-arrow-right next"></i>
+                                
+                            }else if(id == 2)
+                            {
+                                <div class="levelbtns">
+
+                                    <button class="@(o.levelId == 3 ? "current" : "")" target="3">qalxdi</button>
+                                        <button class="@(o.levelId == 4 ? "current" : "")" target="4">dusdu</button>
+                                        <button class="@(o.levelId == 5 ? "current" : "")" target="5">chatdi</button>
+                                </div>
+                                }
+                            </td>
+                        </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+        <div class="detail-modal-bg">
+            <div class="modall">
+                <div class="modall-head">
+                    <h3>Mehsullar</h3>
+                    <i class="fa fa-times"></i>
+                </div>
+                <div class="modell-body">
+                    <table class="ttable" id="detail">
+                        <thead>
+                            <tr>
+                                <th>Sira</th>
+                                <th>Adi</th>
+                                <th>Qiymeti</th>
+                                <th>Miqdari</th>
+                                <th>Karqo</th>
+                                <th colspan="2"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+<script>
+    $('.fa-info').click(function () {
+        $.get('/User/GetOrderProducts/' + $(this).parents('tr').attr('data-id'), function (res) {
+            console.log(res)
+            $('#detail tbody').empty()
+            $(res).each(function (index) {
+                $('#detail tbody').append(`
+                                    <tr p-id="${this.productId}">
+                                        <td>${index + 1}</td>
+                                        <td>${this.productName}</td>
+                                        <td><input type="number" value="${this.productPrice}"/> </td>
+                                        <td>${this.productCount}</td>
+                                        <td><input type="number" value="${this.productCargoAmount}"/> </td>
+                                        <td><i class="fa fa-check"></i><i class="fa-solid fa-xmark"></i></td>
+                                    </tr>
+                                    `)
+            })
+        })
+            $('.detail-modal-bg').show();
+    })
+    $('.fa-times').click(function () {
+        $('.detail-modal-bg').hide();
+    })
+    $('#detail tbody').on('click', '.fa-check', function(){
+        var data = {
+            price: $(this).parents('tr').find('input').eq(0).val(),
+            cargo: $(this).parents('tr').find('input').eq(1).val()
+        }
+        console.log(data)
+        $.post('/User/AcceptProduct/' + $(this).parents('tr').attr('p-id'), data, function(){
+
+        })
+    })
+    $('#detail tbody').on('click', '.fa-xmark', function(){
+        var row = $(this).parents('tr')
+        $.post('/User/RemoveProduct/' + $(this).parents('tr').attr('p-id'), function(){
+            $(row).remove()
+        })
+    })
+    $(".next").click(function(){
+        $.post("/User/ChangeLevel/"+$(this).parents("tr").attr("data-id"), {levelId : 2}, function(res){
+            console.log(res)
+        })
+        $(this).parents("tr").remove();
+    })
+
+    $(".levelbtns button").click(function(){
+        $(this).siblings().removeClass("current")
+        $(this).addClass("current")
+        $.post("/User/ChangeLevel/" + $(this).parents("tr").attr("data-id"), { levelId: $(this).attr("target") }, function (res) {
+            console.log(res)
+        })
+    })
+  
+</script>
+</div>
+        </section>

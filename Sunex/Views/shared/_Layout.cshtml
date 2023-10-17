@@ -1,0 +1,155 @@
+﻿@using System.Security.Claims;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/x-icon" href="/img/sunexazlogo1.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunex | Türkiyədəki alış veriş nümayəndəniz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/jquery-3.6.4.min.js">
+    <link rel="stylesheet" href="~/css/StyleSheet.css">
+</head>
+    <header>
+        <div class="nav-logo"><img src="/img/sunexazlogo5.png" alt=""></div>
+        <nav>
+            <ul>
+                <li><a class="@(ViewContext.RouteData.Values["action"].ToString() == "index" ? "active" : "")" href="/Home/Index">ANA SƏHIFƏ</a></li>
+                <li><a class="@(ViewContext.RouteData.Values["action"].ToString() == "tarifs" ? "active" : "")" href="/Home/tarifs">TARİFLƏR</a></li>
+                <li><a class="@(ViewContext.RouteData.Values["action"].ToString() == "conditions" ? "active" : "")" href="/Home/conditions">DAŞIMA ŞƏRTLƏRİ</a></li>
+                <li><a class="@(ViewContext.RouteData.Values["action"].ToString() == "services" ? "active" : "")" href="/Home/services">XİDMƏTLƏR</a></li>
+                <li><a class="@(ViewContext.RouteData.Values["action"].ToString() == "shops" ? "active" : "")" href="/Home/shops">MAĞAZALAR</a></li>
+                <li><a class="@(ViewContext.RouteData.Values["action"].ToString() == "connection" ? "active" : "")" href="/Home/connection">ƏLAQƏ</a></li>
+            </ul>
+        </nav>
+
+        @if (User.Identity.IsAuthenticated)
+            {
+                <a href="/user/myorder" class="login">
+            <i class="fa-solid fa-user"></i>
+        <span>
+            
+                @User.FindFirst(ClaimTypes.NameIdentifier).Value
+            
+        </span>
+        </a>
+
+        <a href="/user/longout" class="login">Çıxış</a>
+            } else{ 
+                
+        <a href="/user/login" class="login">
+            <i class="fa-solid fa-user"></i>
+                <Span>Daxil ol</span> 
+        </a>
+            }
+
+        <i class="fa-solid fa-bars login"></i>
+        <div class="media-nav">
+            <i class="fa-solid fa-x"></i>
+            <ul>
+                <li><a  href="index.html">ANA SƏHIFƏ</a></li>
+                <li><a  href="tarifs.html">TARİFLƏR</a></li>
+                <li><a  href="conditions.html">DAŞIMA ŞƏRTLƏRİ</a></li>
+                <li><a  href="services.html">XİDMƏTLƏR</a></li>
+                <li><a  href="shops.html">MAĞAZALAR</a></li>
+                <li><a  href="connection.html">ƏLAQƏ</a></li>
+            </ul>
+            <a href="login.html">Giriş</a>
+        </div>
+    </header>
+    <div>
+        <section class="slider">
+            <div class="slide-track">
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/hg_logo_v5.svg" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/hm.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/mango.jpg" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/Stradivarius_logo.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/pullnbear.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/ipekyol.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/uspoloass.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/hg_logo_v5.svg" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/hm.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/mango.jpg" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/Stradivarius_logo.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/pullnbear.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/ipekyol.png" height="100" width="250" alt="" />
+                </div>
+                <div class="slide">
+                    <img src="https://sunex.link/uploads/home/shops/uspoloass.png" height="100" width="250" alt="" />
+                </div>
+            </div>
+        </section>
+  
+
+
+
+
+
+        @RenderBody()
+
+        <footer>
+            <img src="/Sunex.az/img/sunexazlogo.png" alt="">
+            <div class="foot">
+                <div class="location">
+                    <p>
+                        <i class="fa-solid fa-location-dot"></i>Yasamal filialı - İsmayıl Talıblı 38, Bakı, Azərbaycan <br>
+
+                        Xalqlar filialı - Seyid Əzim Şirvani 1b, Sərhədçi İdman kompleksinin arxası <br>
+
+                        Həzi Aslanov filialı - Məhəmməd Hadi və Xudu Məmmədov küçələrinin kəsişməsində <br>
+
+                        Xaçmaz filialı - Zərifə Əliyeva 2
+                    </p>
+                    <a href="https://www.google.com/maps/d/u/0/embed?mid=10-vZaClKa3a1lPdlonrnOmJ6wdW4-ETe&ehbc=2E312F" class="btn-link" target="_blank">Ünvanlara bax</a>
+                </div>
+                <div class="contact">
+                    <p><i class="fa-solid fa-phone"></i>Whatsapp <a href="https://api.whatsapp.com/send?phone=+994512068778"> &nbsp;+994 (51) 206 87 78 </a></p>
+                    <p><i class="fa-solid fa-envelope"></i><a class="navi-link text-white" href="mailto:info@sunex.az">info@sunex.az</a></p>
+                    <p><i class="fa-solid fa-clock"></i>İş vaxtlarımız: rəsmi iş günləri saat 11:00-20:00, şənbə günü 12:00 - 15:00</p>
+                    <div class="social-media">
+
+                        <a class="media" href="https://www.facebook.com/sunexaz/" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                        <a class="media" href="https://www.instagram.com/sunex.az/?hl=en" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <span>© Müəllif hüquqları qorunur. Sunex.az - 2023</span>
+        </footer>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="/script/JavaScript.js" asp-append-version="true"></script>
+        </div>
+
+</html>

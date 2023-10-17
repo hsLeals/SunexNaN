@@ -1,0 +1,53 @@
+﻿@using Sunex.Models;
+@using System.Security.Claims;
+@model User;
+
+<section class="userpage">
+
+    <div class="leftuser">
+        <div class="usernav">
+            <span class="user">@User.FindFirst(ClaimTypes.NameIdentifier).Value</span>
+            <div class="user-id">
+                <span>Musteri kodu: </span> <span>#@User.FindFirst(ClaimTypes.Sid).Value</span>
+            </div>
+        </div>
+        <div class="usernav">
+            <ul>
+                <li><a href="/user/neworder">Yeni Sifariş</a></li>
+                <li><a href="/user/myorder">Sifarişlərim</a></li>
+
+                @if (@User.FindFirst(ClaimTypes.Role).Value == "1" || @User.FindFirst(ClaimTypes.Role).Value == "2")
+                {
+                <li><a href="/user/notification">Əlaqə</a></li>
+                <li><a href="/user/confirmation">Tesdiq</a></li>
+                }
+                @if (@User.FindFirst(ClaimTypes.Role).Value == "1")
+                {
+                <li><a href="/user/users">Users</a></li>
+                }
+                <li><a class="activee" href="/user/settings/@User.FindFirst(ClaimTypes.Sid).Value">Tənzimləmələr</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+        
+<div class="page">
+
+        <form action="/user/edit/@Model.Userid" method="post" class="settings">
+            <input name="UserName" type="text" placeholder="Ad" value="@Model.UserName">
+            <input name="UserSurname" type="text" placeholder="Soyad" value="@Model.UserSurname">
+            <input name="UserEmail" type="email" placeholder="E-Mail" value="@Model.UserEmail">
+            <input name="UserPhone" type="number" placeholder="Telefon nömrəsi" value="@Model.UserPhone">
+            <input name="UserPassword" type="password" placeholder="Yeni Şifrə" value="@Model.UserPassword">
+            <select name="userBranchId" id="unvavn" >
+                @foreach (var item in ViewBag.Branchs)
+                {
+                    <option value="@item.BranchId" @(Model.UserBranchId == @item.BranchId ? "selected" : "")>@item.BranchName</option>
+                }
+            </select>
+        <button>Təsdiqlə</button>
+    </form>
+
+</div>
+        </section>

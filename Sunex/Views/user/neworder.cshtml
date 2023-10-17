@@ -1,0 +1,49 @@
+﻿@using Sunex.Models;
+@using System.Security.Claims;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<Product>
+
+<section class="userpage">
+
+    <div class="leftuser">
+        <div class="usernav">
+            <span class="user">@User.FindFirst(ClaimTypes.NameIdentifier).Value</span>
+            <div class="user-id">
+                <span>Musteri kodu: </span> <span>#@User.FindFirst(ClaimTypes.Sid).Value</span>
+            </div>
+        </div>
+        <div class="usernav">
+            <ul>
+                <li><a class="activee" href="/user/neworder">Yeni Sifariş</a></li>
+                <li><a href="/user/myorder">Sifarişlərim</a></li>
+                @if (@User.FindFirst(ClaimTypes.Role).Value == "1" || @User.FindFirst(ClaimTypes.Role).Value == "2")
+                {
+                    <li><a href="/user/notification">Əlaqə</a></li>
+                    <li><a href="/user/confirmation">Tesdiq</a></li>
+                }
+                @if (@User.FindFirst(ClaimTypes.Role).Value == "1")
+                {
+                    <li><a href="/user/users">Users</a></li>
+                }
+                <li><a href="/user/settings/@User.FindFirst(ClaimTypes.Sid).Value">Tənzimləmələr</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="page">
+        <form action="/user/addorder" method="post">
+            <div class="products">
+                <div class="product">
+                <input type="text" placeholder="Sifarişin adı" asp-for="@Model[0].ProductName">
+                <input type="text" placeholder="Link-i daxil edin" asp-for="@Model[0].ProductUrl">
+                <input type="number" placeholder="Say" asp-for="@Model[0].ProductCount">
+                <button type="button" onclick="removeRow(this)">Sil</button>
+                </div>
+            </div>
+            <button type="button" id="addrow">Yeni Sifariş əlavə et</button>
+            <button>Sifariş et</button>
+        </form>
+    </div>
+        </section>
+

@@ -1,0 +1,93 @@
+﻿@using System.Security.Claims;
+@using Sunex.Models;
+@model List<Order>
+
+
+<section class="userpage">
+
+    <div class="leftuser">
+        <div class="usernav">
+            <span class="user">@User.FindFirst(ClaimTypes.NameIdentifier).Value</span>
+            <div class="user-id">
+                <span>Musteri kodu: </span> <span>#@User.FindFirst(ClaimTypes.Sid).Value</span>
+            </div>
+        </div>
+        <div class="usernav">
+            <ul>
+                <li><a href="/user/neworder">Yeni Sifariş</a></li>
+                <li><a class="activee" href="/user/myorder">Sifarişlərim</a></li>
+                @if (@User.FindFirst(ClaimTypes.Role).Value == "1" || @User.FindFirst(ClaimTypes.Role).Value == "2")
+                {
+                    <li><a href="/user/notification">Əlaqə</a></li>
+                    <li><a href="/user/confirmation">Tesdiq</a></li>
+                }
+                @if (@User.FindFirst(ClaimTypes.Role).Value == "1")
+                {
+                    <li><a href="/user/users">Users</a></li>
+                }
+                <li><a href="/user/settings/@User.FindFirst(ClaimTypes.Sid).Value">Tənzimləmələr</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+
+    <div class="page">
+
+        <div class="orders">
+
+            @foreach (var item in Model)
+            {
+                <div class="order">
+                    <p>@item.OrderDate</p>
+                    <div class="tracking" lvl="@item.OrderLevelId">
+                        <div class="icon"><i class="fa-solid fa-file-contract"></i></div>
+                        <div class="icon"><i class="fa-solid fa-warehouse"></i></div>
+                        <div class="icon"><i class="fa-solid fa-plane-departure"></i></div>
+                        <div class="icon"> <i class="fa-solid fa-plane-arrival"></i></div>
+                        <div class="icon"><i class="fa-solid fa-check"></i></div>
+                    </div>
+                    <table class="ttable" style="width: 70%; margin:auto">
+                        <thead>
+                            <tr>
+                                <th>Sifariş Adı</th>
+                                <th>Məhsulun Qiyməti</th>
+                                <th>Cargo Qiyməti</th>
+                            </tr>
+                        </thead>
+                        @foreach (var p in item.Products)
+                        {   
+                            <tr>
+                                <td>@p.ProductName</td>
+                                <td>@p.ProductPrice AZN</td>
+                                <td>@p.ProductCargoAmount AZN</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+
+    $(".tracking").each(function(){
+
+        let a =$(this).attr("lvl")
+
+        if(a == 1){
+                $(this).children().eq(0).css("color", "#34B233")
+        }else if(a == 2){
+            $(this).children().eq(2).prevAll().css("color", "#34B233")
+        }else if(a == 3){
+            $(this).children().eq(3).prevAll().css("color", "#34B233")
+        }else if(a == 4){
+            $(this).children().eq(4).prevAll().css("color", "#34B233")
+        }else if(a == 5){
+            $(this).children().css("color", "#34B233")
+        }
+
+    })
+
+</script>

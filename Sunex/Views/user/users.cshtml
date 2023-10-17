@@ -1,0 +1,82 @@
+﻿@using Sunex.Models
+@using System.Security.Claims;
+@model List<User>
+
+
+
+<section class="userpage">
+
+    <div class="leftuser">
+        <div class="usernav">
+            <span class="user">@User.FindFirst(ClaimTypes.NameIdentifier).Value</span>
+            <div class="user-id">
+                <span>Musteri kodu: </span> <span>#@User.FindFirst(ClaimTypes.Sid).Value</span>
+            </div>
+        </div>
+        <div class="usernav">
+            <ul>
+                <li><a href="/user/neworder">Yeni Sifariş</a></li>
+                <li><a href="/user/myorder">Sifarişlərim</a></li>
+                <li><a href="/user/notification">Əlaqə</a></li>
+                <li><a href="/user/confirmation">Tesdiq</a></li>
+                <li><a class="activee" href="/user/users">Users</a></li>
+                <li><a href="/user/settings/@User.FindFirst(ClaimTypes.Sid).Value">Tənzimləmələr</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="page">
+    <form action="">
+        <table border="1" class="user-table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Username</th>
+                    <th>Usersurname</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                    @foreach(var item in Model)
+                    {
+                        
+                <tr>
+                    <td>@item.Userid</td>
+                    <td>@item.UserName</td>
+                    <td>@item.UserSurname</td>
+                    <td><a uid="@item.Userid"><i class="fa-solid fa-trash"></i></a></td>
+                </tr>
+
+                    }
+
+            </tbody>
+        </table>
+    </form>
+</div>
+
+    <div class="detail-modal-bg">
+        <div class="modall">
+            <div class="modall-head">
+                <h3>Istifadəçi silinsin?</h3>
+                <i class="fa fa-times"></i>
+            </div>
+            <button class="yes">Sil</button>
+        </div>
+    </div>
+        </section>
+<script>
+
+    $(".fa-trash").click(function () {
+        $(".yes").attr("uid", $(this).parents("a").attr('uid'));
+        $('.detail-modal-bg').show();
+    })
+    $(".yes").click(function () {
+        $.post('/admin/delete/' + $(this).attr('uid'))
+        $('.detail-modal-bg').hide();
+    })
+    $('.fa-times').click(function () {
+        $('.detail-modal-bg').hide();
+    })
+
+</script>

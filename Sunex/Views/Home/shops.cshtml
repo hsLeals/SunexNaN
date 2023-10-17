@@ -1,0 +1,25 @@
+﻿@using Sunex.Models
+@using System.Security.Claims;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<Shop>
+
+
+<section class="shops">
+
+    @foreach (var item in Model)
+    {
+       <a href="@item.ShopUrl"><img src="@item.ShopLogo"></a>
+    }
+
+    @if (User.Identity.IsAuthenticated)
+    {
+
+        @if (@User.FindFirst(ClaimTypes.Role).Value == "1")
+        {
+            
+    <a href="/admin/addshop">AddShop</a>
+        }
+
+    }
+
+</section>
